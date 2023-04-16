@@ -6,6 +6,7 @@ const authUser = require("./route/authenticateUserRoute");
 const bodyParser = require("body-parser");
 const DB_URL = require("./config/db.config");
 const app = express();
+const { port } = require("./config/server.config");
 const MAX_FILE_SIZE = 1024 * 1024;
 const corsOptions = {
   origin: "http://localhost:3001", // allow requests from this domain
@@ -38,6 +39,6 @@ db.once("open", () => {
 userRoute(app);
 authUser(app);
 
-app.listen("3000", () => {
+app.listen(port, () => {
   console.log("listening...");
 });
