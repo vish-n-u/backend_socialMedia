@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const {secretKey} = require("../config/server.config");
+const { secretKey } = require("../config/server.config");
 
 const User = require("../model/user.model");
 
@@ -18,6 +18,7 @@ exports.registration = async (req, res) => {
       let token = jwt.sign(newUser.email, secretKey);
       return res.status(201).send({
         message: {
+          userName: newUser.userName,
           imgLink: newUser.imgLink,
           token,
         },
