@@ -1,3 +1,3 @@
-const DB_URL = "mongodb://127.0.0.1:27017/socialMedia";
+const DB_URL = process.env.DB_URL;
 
 module.exports = DB_URL;

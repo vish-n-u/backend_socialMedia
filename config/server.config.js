@@ -1,7 +1,3 @@
-if (process.NODE_ENV !== "PRODUCTION") {
-  require("dotenv").config();
-}
-
-port = process.env.PORT;
+port = process.env.PORT || 3000;
 secretKey = process.env.SECRET_KEY;
-module.exports = { secretKey, poer };
+module.exports = { secretKey, port };
