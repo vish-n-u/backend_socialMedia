@@ -28,6 +28,9 @@ app.use(
 app.get("/", (req, res) => {
   res.status(200).send("reached");
 });
+app.get("/working", (req, res) => {
+  res.status(200).send("seemsToBeWorking...ig!");
+});
 
 async function connectDb() {
   const conn = await mongoose.connect(DB_URL);
