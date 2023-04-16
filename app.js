@@ -28,17 +28,21 @@ app.use(
 app.get("/", (req, res) => {
   res.status(200).send("reached");
 });
-mongoose.connect(DB_URL);
-const db = mongoose.connection;
-db.on("error", () => {
-  console.log("#### Error while connecting to mongoDB ####");
-});
-db.once("open", () => {
-  console.log("#### Connected to mongoDB ####");
-});
-userRoute(app);
-authUser(app);
 
-app.listen(port, () => {
-  console.log("listening...");
-});
+async function connectDb() {
+  const conn = await mongoose.connect(DB_URL);
+  const db = mongoose.connection;
+  db.on("error", () => {
+    console.log("#### Error while connecting to mongoDB ####");
+  });
+  db.once("open", () => {
+    console.log("#### Connected to mongoDB ####");
+  });
+  userRoute(app);
+  authUser(app);
+
+  app.listen(port, () => {
+    console.log("listening...");
+  });
+}
+connectDb();
