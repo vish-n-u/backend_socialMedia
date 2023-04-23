@@ -9,7 +9,7 @@ const app = express();
 const { port } = require("./config/server.config");
 const MAX_FILE_SIZE = 1024 * 1024;
 const corsOptions = {
-  origin: "http://localhost:3001", // allow requests from this domain
+  origin: "http://localhost:1234", // allow requests from this domain
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // allow these methods
   allowedHeaders: ["Content-Type"], // allow these headers
 };

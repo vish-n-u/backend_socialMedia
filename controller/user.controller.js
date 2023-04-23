@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const { secretKey } = require("../config/server.config");
+const { secretKey, refreshKey } = require("../config/server.config");
 
 const User = require("../model/user.model");
 
 exports.registration = async (req, res) => {
-  console.log("registration", req.user);
+  console.log("registration", req.user, secretKey);
   try {
     if (req.user) {
       const obj = {
@@ -15,12 +15,18 @@ exports.registration = async (req, res) => {
         email: req.user.email,
         imgLink: req.user.imgLink,
       };
-      let token = jwt.sign(newUser.email, secretKey);
+      let token = jwt.sign({ email: newUser.email }, secretKey, {
+        expiresIn: "10m",
+      });
+      let refreshToken = jwt.sign({ email: newUser.email }, refreshKey, {
+        expiresIn: "60m",
+      });
       return res.status(201).send({
         message: {
           userName: newUser.userName,
           imgLink: newUser.imgLink,
           token,
+          refreshToken,
         },
       });
     }
@@ -34,16 +40,23 @@ exports.registration = async (req, res) => {
     };
     const newUser = await User.create(obj);
 
-    let token = jwt.sign(newUser.email, secretKey);
+    let token = jwt.sign({ email: newUser.email }, secretKey, {
+      expiresIn: "10 minutes",
+    });
+    let refreshToken = jwt.sign({ email: newUser.email }, refreshKey, {
+      expiresIn: "1 hour",
+    });
     return res.status(201).send({
       message: {
         imgLink: newUser.imgLink,
+        userName: newUser.userName,
         token,
+        refreshToken,
       },
     });
   } catch (err) {
     console.log(err);
-    return res.status(500).send("server err");
+    return res.status(500).send({ message: "server err" });
   }
 };
 
@@ -53,7 +66,7 @@ exports.deleteRegistration = async (req, res) => {
     return res.status(200).send({ message: "Successful" });
   } catch (err) {
     console.log(err);
-    return res.status(500).send("server err");
+    return res.status(500).send({ message: "server err" });
   }
 };
 
@@ -61,27 +74,45 @@ exports.login = async (req, res) => {
   console.log("enterd login", req.body);
 
   try {
-    let token = jwt.sign(req.doesUserExist.email, secretKey);
+    let token = jwt.sign({ email: req.doesUserExist.email }, secretKey, {
+      expiresIn: "10 minutes",
+    });
+    let refreshToken = jwt.sign(
+      { email: req.doesUserExist.email },
+      refreshKey,
+      {
+        expiresIn: "1 hour",
+      }
+    );
     return res.status(200).send({
       message: {
         imgLink: req.doesUserExist.imgLink,
+        userName: req.doesUserExist.userName,
         token,
+        refreshToken,
       },
     });
   } catch (err) {
     console.log(err);
-    return res.status(500).send("internal server err..");
+    return res.status(500).send({ message: "server err" });
   }
 };
 exports.verify = async (req, res) => {
   try {
     console.log("entered verify", req.user);
     if (req.user) {
-      let token = jwt.sign(req.user.email, secretKey);
+      let token = jwt.sign({ email: req.user.email }, secretKey, {
+        expiresIn: "10 minutes",
+      });
+      let refreshToken = jwt.sign({ email: req.user.email }, refreshKey, {
+        expiresIn: "1 hour",
+      });
       return res.status(201).send({
         message: {
           imgLink: req.user.imgLink,
           token,
+          refreshToken,
+          userName: req.user.userName,
         },
       });
     } else {
@@ -91,17 +122,24 @@ exports.verify = async (req, res) => {
         imgLink: req.payload.picture,
         googleSignedIn: true,
       };
-      let token = jwt.sign(obj.email, secretKey);
+      let token = jwt.sign({ email: obj.email }, secretKey, {
+        expiresIn: "10 minutes",
+      });
+      let refreshToken = jwt.sign({ email: obj.email }, refreshKey, {
+        expiresIn: "1 hour",
+      });
       const newUser = await User.create(obj);
       return res.status(201).send({
         message: {
           imgLink: newUser.imgLink,
+          userName: newUser.userName,
           token,
+          refreshToken,
         },
       });
     }
   } catch (err) {
     console.log(err);
-    return res.status(500).send("server err");
+    return res.status(500).send({ message: "server err" });
   }
 };

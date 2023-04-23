@@ -1,15 +1,17 @@
 const mongoose = require("mongoose");
 const User = require("../model/user.model");
-const { OAuth2Client } = require("google-auth-library");
+const { OAuth2Client, JWT } = require("google-auth-library");
 const bcrypt = require("bcrypt");
+const { secretKey } = require("../config/server.config");
 exports.registrationValidation = async (req, res, next) => {
+  console.log("reached");
   try {
     let doesUserExist = await doesEmailIdExist(req, res);
 
     if (!doesUserExist || doesUserExist.googleSignedIn) {
       if (doesUserExist.googleSignedIn) req.user = doesUserExist;
       next();
-    } else return res.status(400).send("Email already exists!");
+    } else return res.status(400).send({ message: "Email already exists!" });
   } catch (err) {
     console.log(err);
     return res.status(500).send("server err");
@@ -33,22 +35,22 @@ exports.validateGoogleSignIn = async (req, res, next) => {
     // This is a JSON object that contains
     // all the user info
     let doesUserExist = await doesEmailIdExist(req, res, payload);
-    
+
     if (doesUserExist) req.user = doesUserExist;
     else req.payload = payload;
     next();
   } catch (err) {
     console.log(err);
-    return res.status(500).send("internal server err");
+    return res.status(500).send({ message: "internal server err" });
   }
 };
 
 exports.validateLogin = async (req, res, next) => {
   try {
-    console.log("validateLogin Entered");
+    console.log("validateLogin Entered", req.body);
     const doesUserExist = await doesEmailIdExist(req, res);
     if (!doesUserExist) {
-      return res.status(404).send({ message: "invalid" });
+      return res.status(404).send({ message: { email: "invalid" } });
     } else {
       req.doesUserExist = doesUserExist;
       if (req.body.requestFor !== "otpBased") {
@@ -64,16 +66,16 @@ exports.validateLogin = async (req, res, next) => {
       }
       next();
     }
-  } catch (er) {
+  } catch (err) {
     console.log(err);
-    return res.status(500).send("internal err");
+    return res.status(500).send({ message: "internal err" });
   }
 };
 
 const doesEmailIdExist = async (req, res, payload) => {
   try {
     let doesUserExist = await User.findOne({
-      email: req.body.email,
+      email: req.body.userEmail || req.body.email,
     });
     if (!doesUserExist && payload)
       doesUserExist = await User.findOne({ email: payload.email });
@@ -84,6 +86,6 @@ const doesEmailIdExist = async (req, res, payload) => {
     }
   } catch (err) {
     console.log(err);
-    return res.status(500).send("server err");
+    return res.status(500).send({ message: "Server err" });
   }
 };
