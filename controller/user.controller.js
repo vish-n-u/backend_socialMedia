@@ -102,7 +102,7 @@ exports.verify = async (req, res) => {
     console.log("entered verify", req.user);
     if (req.user) {
       let token = jwt.sign({ email: req.user.email }, secretKey, {
-        expiresIn: "10 minutes",
+        expiresIn: "1 minutes",
       });
       let refreshToken = jwt.sign({ email: req.user.email }, refreshKey, {
         expiresIn: "1 hour",
@@ -123,7 +123,7 @@ exports.verify = async (req, res) => {
         googleSignedIn: true,
       };
       let token = jwt.sign({ email: obj.email }, secretKey, {
-        expiresIn: "10 minutes",
+        expiresIn: "1 minutes",
       });
       let refreshToken = jwt.sign({ email: obj.email }, refreshKey, {
         expiresIn: "1 hour",

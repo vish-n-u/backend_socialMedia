@@ -1,13 +1,18 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const userRoute = require("./route/user.route");
-const authUser = require("./route/authenticateUserRoute");
 const bodyParser = require("body-parser");
+
 const DB_URL = require("./config/db.config");
-const app = express();
 const { port } = require("./config/server.config");
-const MAX_FILE_SIZE = 1024 * 1024;
+const orderRoute = require("./route/order.route");
+const userRoute = require("./route/user.route");
+const authUser = require("./route/authenticateUser.route");
+const menuRoute = require("./route/menuDetails.route");
+const menuModel = require("./model/menuDetails.model");
+
+const app = express();
+
 const corsOptions = {
   origin: "http://localhost:1234", // allow requests from this domain
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // allow these methods
@@ -15,7 +20,6 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(
   bodyParser.urlencoded({
@@ -41,8 +45,11 @@ async function connectDb() {
   db.once("open", () => {
     console.log("#### Connected to mongoDB ####");
   });
+
   userRoute(app);
   authUser(app);
+  orderRoute(app);
+  menuRoute(app);
 
   app.listen(port, () => {
     console.log("listening...");
