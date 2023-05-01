@@ -11,7 +11,7 @@ exports.verifyUser = async (req, res) => {
 
     console.log("userEmail::", userEmail);
     const user = await User.findOne({
-      email: userEmail,
+      email: userEmail.email,
     });
     if (req.body.newAccessToken)
       return res.status(200).send({
