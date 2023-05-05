@@ -12,7 +12,6 @@ const menuRoute = require("./route/menuDetails.route");
 const menuModel = require("./model/menuDetails.model");
 
 const app = express();
-
 const corsOptions = {
   origin: "https://main--deluxe-cuchufli-f03acb.netlify.app", // allow requests from this domain
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // allow these methods
