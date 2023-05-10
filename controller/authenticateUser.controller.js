@@ -19,7 +19,7 @@ exports.verifyUser = async (req, res) => {
           imgLink: user.imgLink,
           userName: user.userName,
           email: user.email,
-          newAccessToken: newAccessToken,
+          newAccessToken: req.body.newAccessToken,
         },
       });
     return res.status(200).send({

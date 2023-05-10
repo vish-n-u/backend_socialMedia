@@ -50,14 +50,14 @@ exports.validateLogin = async (req, res, next) => {
     console.log("validateLogin Entered", req.body);
     const doesUserExist = await doesEmailIdExist(req, res);
     if (!doesUserExist) {
-      return res.status(404).send({ message: { email: "invalid" } });
+      return res.status(400).send({ message: { email: "invalid" } });
     } else {
       req.doesUserExist = doesUserExist;
       if (req.body.requestFor !== "otpBased") {
         if (
           !bcrypt.compareSync(req.body.password, req.doesUserExist.password)
         ) {
-          return res.status(404).send({
+          return res.status(400).send({
             message: {
               password: "incorrect",
             },

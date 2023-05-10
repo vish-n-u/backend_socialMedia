@@ -5,7 +5,7 @@ exports.verifyJwt = async (req, res, next) => {
   console.log("reached.....second", req.body);
   try {
     if (!req.body.token) {
-      return res.status(404).send({ message: "token" });
+      return res.status(401).send({ message: "token" });
     }
 
     try {
@@ -42,7 +42,7 @@ exports.verifyJwt = async (req, res, next) => {
             let doesUserExist = await User.findOne({ email: email });
             console.log("doesUserExist", doesUserExist);
             if (!doesUserExist) {
-              return res.status(400).send({ message: "logout" });
+              return res.status(401).send({ message: "logout" });
             }
             req.body.newAccessToken = newAccessToken;
             req.user = doesUserExist;
@@ -50,15 +50,15 @@ exports.verifyJwt = async (req, res, next) => {
           } catch (refreshError) {
             console.log("REFRESHTOKEN ERROR", refreshError);
             // If the refresh token is invalid, return an error
-            return res.status(404).send({ message: "logout" });
+            return res.status(401).send({ message: "logout" });
           }
         } else {
           // If no refresh token is provided, return an error
-          return res.status(404).send({ message: "logout" });
+          return res.status(401).send({ message: "logout" });
         }
       } else {
         // If the JWT error is not related to expiration, return an error
-        return res.status(404).send({ message: { token: "Invalid token" } });
+        return res.status(401).send({ message: { token: "Invalid token" } });
       }
     }
   } catch (err) {

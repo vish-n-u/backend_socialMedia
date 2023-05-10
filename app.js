@@ -4,7 +4,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 
 const DB_URL = require("./config/db.config");
-const { port } = require("./config/server.config");
+const { port, Origin } = require("./config/server.config");
 const orderRoute = require("./route/order.route");
 const userRoute = require("./route/user.route");
 const authUser = require("./route/authenticateUser.route");
@@ -13,7 +13,7 @@ const menuModel = require("./model/menuDetails.model");
 
 const app = express();
 const corsOptions = {
-  origin: "https://main--deluxe-cuchufli-f03acb.netlify.app", // allow requests from this domain
+  origin: Origin, // allow requests from this domain
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // allow these methods
   allowedHeaders: ["Content-Type"], // allow these headers
 };
