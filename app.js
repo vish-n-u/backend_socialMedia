@@ -10,10 +10,12 @@ const userRoute = require("./route/user.route");
 const authUser = require("./route/authenticateUser.route");
 const menuRoute = require("./route/menuDetails.route");
 const menuModel = require("./model/menuDetails.model");
-
+console.log("Origin", Origin.length);
+origin = Origin.split(",");
+console.log(origin.length, origin);
 const app = express();
 const corsOptions = {
-  origin: Origin, // allow requests from this domain
+  origin: origin, // allow requests from this domain
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // allow these methods
   allowedHeaders: ["Content-Type"], // allow these headers
 };
