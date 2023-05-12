@@ -21,9 +21,9 @@ exports.createOrder = async (req, res) => {
 };
 
 exports.getAllOrders = async (req, res) => {
-  const userOrders = await Order.findOne({ email: req.user.email });
-  const ifFindWorks = await Order.find({ email: req.user.email });
-  console.log(userOrders, "ifFindWorks:----", ifFindWorks);
+  const userOrders = await Order.find({ email: req.user.email });
+
+  console.log(userOrders, "userOrders:----", userOrders);
   if (req.body.newAccessToken) {
     return res
       .status(200)
