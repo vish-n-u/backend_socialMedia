@@ -11,7 +11,10 @@ exports.registrationValidation = async (req, res, next) => {
     if (!doesUserExist || doesUserExist.googleSignedIn) {
       if (doesUserExist.googleSignedIn) req.user = doesUserExist;
       next();
-    } else return res.status(400).send({ message: "Email already exists!" });
+    } else {
+      console.log("Email already exists!");
+      return res.status(400).send({ message: "Email already exists!" });
+    }
   } catch (err) {
     console.log(err);
     return res.status(500).send("server err");

@@ -9,7 +9,7 @@ exports.registration = async (req, res) => {
   console.log("registration", req.user, secretKey);
   try {
     if (req.user) {
-      const obj = {
+      const newUser = {
         userName: req.user.userName,
 
         email: req.user.email,
