@@ -9,6 +9,7 @@ const menuModel = mongoose.Schema({
     type: Map,
     required: true,
   },
+ 
 });
 
-module.exports =   mongoose.model("menuDetails", menuModel);
+module.exports = mongoose.model("menuDetails", menuModel);

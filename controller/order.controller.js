@@ -32,3 +32,15 @@ exports.getAllOrders = async (req, res) => {
     return res.status(200).send({ message: userOrders });
   }
 };
+
+exports.updateOrder = async (req, res) => {
+  try {
+    console.log(req.user);
+    req.user.orderSuccessful = false;
+    await req.user.save();
+    return res.status(200).send({ message: "success" });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send({ message: "internal server error" });
+  }
+};

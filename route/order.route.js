@@ -13,6 +13,11 @@ const orderRoute = (app) => {
     [verifyJwt.verifyJwt],
     orderController.getAllOrders
   );
+  app.put(
+    "/socialMedia/api/v1/orders",
+    [verifyJwt.verifyJwt, orderValidation.validateUpdateOrder],
+    orderController.updateOrder
+  );
 };
 
 module.exports = orderRoute;

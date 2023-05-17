@@ -10,7 +10,7 @@ exports.verifyJwt = async (req, res, next) => {
 
     try {
       console.log("reached.....second2");
-      const isValidJwt = jwt.verify(req.body.token, secretKey);
+      const isValidJwt = await jwt.verify(req.body.token, secretKey);
       console.log(isValidJwt);
       // If the JWT is valid, set the user in the request and continue
       let { email } = jwt.decode(req.body.token);
@@ -35,7 +35,7 @@ exports.verifyJwt = async (req, res, next) => {
             // If the refresh token is valid, generate a new JWT and continue
             let { email } = jwt.decode(req.body.refreshToken);
             console.log("REFRESHTOKEN ERROR3 email", email);
-            let newAccessToken = jwt.sign({ email }, secretKey, {
+            let newAccessToken = await jwt.sign({ email }, secretKey, {
               expiresIn: "10 minutes",
             });
             console.log("email", email);

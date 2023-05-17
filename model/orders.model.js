@@ -18,10 +18,15 @@ const OrderModel = new mongoose.Schema({
     type: Map,
     required: true,
   },
-  
+
   totalAmount: {
     type: String,
     required: true,
+  },
+  orderSuccessful: {
+    type: Boolean,
+    required: true,
+    default: true,
   },
 });
 
