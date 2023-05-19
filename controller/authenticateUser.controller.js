@@ -16,7 +16,7 @@ exports.verifyUser = async (req, res) => {
     if (req.body.newAccessToken)
       return res.status(200).send({
         message: {
-          imgLink: user.imgLink,
+          
           userName: user.userName,
           email: user.email,
           newAccessToken: req.body.newAccessToken,
@@ -24,7 +24,7 @@ exports.verifyUser = async (req, res) => {
       });
     return res.status(200).send({
       message: {
-        imgLink: user.imgLink,
+    
         userName: user.userName,
         email: user.email,
       },

@@ -18,10 +18,6 @@ const User = new mongoose.Schema({
     type: String,
     required: true,
   },
-  imgLink: {
-    type: String,
-    required: true,
-  },
 });
 
 module.exports = mongoose.model("users", User);
