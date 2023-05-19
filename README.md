@@ -19,7 +19,7 @@ Integration testing using REST API's.
 ### Data safety
 - All data of the users are deleted from the database every Sunday.
 - If Logged in using google sign-in , only email-id and username are stored.
-- If you still dont want to sign-in using your details,  you can login using ### username:-defaultUser and password:-defaultPassword
+- If you still dont want to sign-in using your details,  you can login using  **username:-defaultUser and password:-defaultPassword**
 
 <br/>
 
