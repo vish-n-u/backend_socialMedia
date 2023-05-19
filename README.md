@@ -37,3 +37,35 @@ Integration testing using REST API's.
 
 <br/>
 
+## Getting Started
+
+### Prerequisites
+
+- Node.js and npm should be installed on your machine.
+
+### Installation
+
+1. Clone the repository:
+  ```shell
+git clone https://github.com/vish-n-u/backend_socialMedia
+```
+
+2. Change into the project directory:
+```shell
+cd backend_socialMedia
+```
+
+3. Install the dependencies:
+```shell
+npm install
+```
+
+4 .Start the development server:
+```shell
+npm run start
+```
+
+ 5.Open your browser and visit http://localhost:1234 to see the app running.
+ </br>
+ 
+
