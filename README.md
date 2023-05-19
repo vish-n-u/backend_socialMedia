@@ -11,7 +11,15 @@ Integration testing using REST API's.
 - You can login  using Google or using Email and Password or, in case if you forgot password you can login using otp.  
 
 >**Order creation**
+- Only authenticated users can create an order.
+- Orders can get cancelled due to system error or delivery partner's accident.
+- A jwt and refresh token are provided during sign-in,jwt is automatically recreated if it expires, if refresh token expires user is logged out!
 
+
+### Data safety
+- All data of the users are deleted from the database every Sunday.
+- If Logged in using google sign-in , only email-id and username are stored.
+- If you still dont want to sign-in using your details,  you can login using ### username:-defaultUser and password:-defaultPassword
 
 <br/>
 
@@ -19,19 +27,13 @@ Integration testing using REST API's.
 |npm modules|
 |-|
 |express|
-|sequelize|
-|MySQL|
 |mongoose|
 |jsonwebtoken|
-|node-rest-client|
 |dotenv|
 |body-parser|
 |bcryptjs|
-
-|external applications|
-|-|
-|notification service application|
-|otp-creator|
+|cors|
+|google-auth-library|
 
 <br/>
 
