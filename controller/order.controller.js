@@ -42,7 +42,7 @@ exports.getAllOrders = async (req, res) => {
       areMoreItemsAvailable,
     });
   } else {
-    return res.status(200).send({ message: userOrders });
+    return res.status(200).send({ message: userOrders, areMoreItemsAvailable });
   }
 };
 
