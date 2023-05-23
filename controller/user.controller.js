@@ -13,7 +13,6 @@ exports.registration = async (req, res) => {
         userName: req.user.userName,
 
         email: req.user.email,
-      
       };
       let token = jwt.sign({ email: newUser.email }, secretKey, {
         expiresIn: "10m",
@@ -24,7 +23,7 @@ exports.registration = async (req, res) => {
       return res.status(201).send({
         message: {
           userName: newUser.userName,
-          
+
           token,
           refreshToken,
         },
@@ -36,7 +35,6 @@ exports.registration = async (req, res) => {
       userName: req.body.userName,
       password: bcrypt.hashSync(req.body.password, 10),
       email: req.body.email,
-      
     };
     const newUser = await User.create(obj);
 
@@ -48,7 +46,6 @@ exports.registration = async (req, res) => {
     });
     return res.status(201).send({
       message: {
-        
         userName: newUser.userName,
         token,
         refreshToken,
@@ -84,9 +81,9 @@ exports.login = async (req, res) => {
         expiresIn: "1 hour",
       }
     );
+    console.log(req.doesUserExist);
     return res.status(200).send({
       message: {
-      
         userName: req.doesUserExist.userName,
         token,
         refreshToken,
@@ -109,7 +106,6 @@ exports.verify = async (req, res) => {
       });
       return res.status(201).send({
         message: {
-        
           token,
           refreshToken,
           userName: req.user.userName,
@@ -119,7 +115,7 @@ exports.verify = async (req, res) => {
       const obj = {
         userName: req.payload.name,
         email: req.payload.email,
-       
+
         googleSignedIn: true,
       };
       let token = jwt.sign({ email: obj.email }, secretKey, {
@@ -131,7 +127,6 @@ exports.verify = async (req, res) => {
       const newUser = await User.create(obj);
       return res.status(201).send({
         message: {
-          
           userName: newUser.userName,
           token,
           refreshToken,

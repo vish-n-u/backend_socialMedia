@@ -21,13 +21,26 @@ exports.createOrder = async (req, res) => {
 };
 
 exports.getAllOrders = async (req, res) => {
-  const userOrders = await Order.find({ email: req.user.email });
+  const queryParam = parseInt(req.query.num) || 0;
 
-  console.log(userOrders, "userOrders:----", userOrders);
+  console.log("queryParam", req.query.num);
+  const skip = queryParam === 0 ? 0 : queryParam * 2;
+  const userOrders = await Order.find({ email: req.user.email })
+    .sort({ createdAt: -1 }) // Sort by creation date in reverse order
+    .skip(skip)
+    .limit(3)
+    .exec();
+
+  let areMoreItemsAvailable = true;
+  if (userOrders.length < 3) areMoreItemsAvailable = false;
+  console.log("userOrders", userOrders.length, areMoreItemsAvailable);
+  if (userOrders.length === 3) userOrders.pop();
   if (req.body.newAccessToken) {
-    return res
-      .status(200)
-      .send({ message: userOrders, newAccessToken: req.body.newAccessToken });
+    return res.status(200).send({
+      message: userOrders,
+      newAccessToken: req.body.newAccessToken,
+      areMoreItemsAvailable,
+    });
   } else {
     return res.status(200).send({ message: userOrders });
   }

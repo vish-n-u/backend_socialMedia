@@ -54,6 +54,9 @@ exports.validateLogin = async (req, res, next) => {
     const doesUserExist = await doesEmailIdExist(req, res);
     if (!doesUserExist) {
       return res.status(400).send({ message: { email: "invalid" } });
+    }
+    if (!doesUserExist.password && req.body.requestFor !== "otpBased") {
+      return res.status(400).send({ message: "otpBased" });
     } else {
       req.doesUserExist = doesUserExist;
       if (req.body.requestFor !== "otpBased") {
