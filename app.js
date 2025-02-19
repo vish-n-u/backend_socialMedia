@@ -36,6 +36,10 @@ app.get("/", (req, res) => {
 app.get("/working", (req, res) => {
   res.status(200).send("seemsToBeWorking...ig!");
 });
+app.get("/socialMedia/api/v1/swiggyMenu",(req,res)=>{
+  const filePath = path.join(__dirname, "utils", "swiggyMenuApi.json"); 
+  res.sendFile(filePath);
+})
 
 async function connectDb() {
   const conn = await mongoose.connect(DB_URL);
